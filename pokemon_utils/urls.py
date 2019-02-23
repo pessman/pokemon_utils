@@ -18,8 +18,8 @@ from django.urls import include, path
 from rest_framework_swagger.views import get_swagger_view
 
 urlpatterns = [
-    path('', get_swagger_view(title='Pokemon Utils API')),
     path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api-auth/', include('rest_framework.urls', namespace = 'rest_framework')),
+    path('api-docs/', get_swagger_view(title='Pokemon Utils API')),
     path('pokemon/', include('pokemon.urls'))
 ]
