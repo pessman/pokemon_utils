@@ -4,6 +4,10 @@ class Ability(models.Model):
     name = models.CharField(max_length=64)
     description = models.CharField(max_length=256)
 
+    class Meta:
+        verbose_name = 'ability'
+        verbose_name_plural = 'abilities'
+
 class Item(models.Model):
     ITEM_CATEGORY_CHOICES = (
         ('BATTLE_ITEMS', 'Battle Items'),
@@ -19,9 +23,17 @@ class Item(models.Model):
     category = models.CharField(max_length=16, choices=ITEM_CATEGORY_CHOICES)
     effect = models.CharField(max_length=256)
 
+    class Meta:
+        verbose_name = 'item'
+        verbose_name_plural = 'items'
+
 class Type(models.Model):
     name = models.CharField(max_length=32)
     description = models.CharField(max_length=512)
+
+    class Meta:
+        verbose_name = 'type'
+        verbose_name_plural = 'types'
 
 class Move(models.Model):
     MOVE_CATEGORY_CHOICES = (
@@ -38,6 +50,10 @@ class Move(models.Model):
     tm = models.CharField(max_length=8, null=True)
     effect = models.CharField(max_length=256)
 
+    class Meta:
+        verbose_name = 'move'
+        verbose_name_plural = 'moves'
+
 class Pokemon(models.Model):
     pokedex = models.IntegerField()
     name = models.CharField(max_length=32)
@@ -51,3 +67,7 @@ class Pokemon(models.Model):
     special_attack = models.IntegerField()
     special_defense = models.IntegerField()
     speed = models.IntegerField()
+
+    class Meta:
+        verbose_name = 'pokemon'
+        verbose_name_plural = 'pokemon'
