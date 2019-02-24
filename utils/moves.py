@@ -1,3 +1,6 @@
+'''Utility functions used to populate move db information
+'''
+
 import os
 
 import requests
@@ -5,6 +8,9 @@ from bs4 import BeautifulSoup
 
 
 def get_move_info():
+    '''Function that creates a generator of BeautifulSoup objects correspondoning to an individual move
+    '''
+
     url = os.environ.get('MOVE_URL')
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -14,6 +20,9 @@ def get_move_info():
 
 
 def build_move_db():
+    '''Updates or creates move based on info from supplied by get_move_info()
+    '''
+
     from pokemon.models import Move, Type
 
     for move in get_move_info():
@@ -31,6 +40,7 @@ def build_move_db():
         effect = fields[7].string
         effect_percent_chance = fields[8].string if fields[8].string != '—' else None
         defaults = {
+            'name': name,
             'type': type_obj,
             'category': category,
             'power': power,

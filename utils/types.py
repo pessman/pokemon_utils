@@ -1,37 +1,37 @@
+'''Utility functions used to populate type db information
+'''
+
 import os
 
 import requests
 from bs4 import BeautifulSoup
-from bs4.element import NavigableString, Tag
 
-def parse_content(content):
-    parsed_content = ""
-    for item in content:
-        if type(item) is NavigableString:
-            parsed_content += item.string
-        elif type(item) is Tag:
-            parsed_content += parse_content(item)
-        else:
-            print('what is going on')
-    return parsed_content
+from utils import db_utils
+
 
 def get_type_info():
+    '''Function that creates a generator of BeautifulSoup objects correspondoning to an individual type
+    '''
+
     url = os.environ.get('TYPE_URL')
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
     for a in soup.body.main.p.find_all('a'):
-        type = a.string
-        yield type.lower()
+        yield str(a.string).lower()
 
 def build_type_db():
+    '''Updates or creates type based on info from supplied by get_type_info()
+    '''
+
     from pokemon.models import Type
 
     for type in get_type_info():
         url = os.environ.get('TYPE_URL') + '/' + type
         response = requests.get(url)
         soup = BeautifulSoup(response.text, 'html.parser')
-        description = parse_content(soup.body.main.p)
+        description = db_utils.parse_content(soup.body.main.p)
         defaults = {
+            'name': type.title(),
             'description': description
         }
         obj, created = Type.objects.update_or_create(name=type, defaults=defaults)
