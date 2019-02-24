@@ -82,6 +82,7 @@ class Pokemon(models.Model):
     speed = models.IntegerField()
 
     class Meta:
+        ordering = ['pokedex', 'form']
         verbose_name = 'pokemon'
         verbose_name_plural = 'pokemon'
 
