@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Ability(models.Model):
     name = models.CharField(max_length=64, unique=True)
     description = models.CharField(max_length=256)
@@ -10,6 +11,7 @@ class Ability(models.Model):
 
     def __str__(self):
         return str(self.name)
+
 
 class Item(models.Model):
     ITEM_CATEGORY_CHOICES = (
@@ -23,7 +25,8 @@ class Item(models.Model):
         ('UNKOWN', 'Uknown')
     )
     name = models.CharField(max_length=32, unique=True)
-    category = models.CharField(max_length=16, null=True, choices=ITEM_CATEGORY_CHOICES)
+    category = models.CharField(
+        max_length=16, null=True, choices=ITEM_CATEGORY_CHOICES)
     effect = models.CharField(max_length=256, null=True)
 
     class Meta:
@@ -32,6 +35,7 @@ class Item(models.Model):
 
     def __str__(self):
         return str(self.name)
+
 
 class Type(models.Model):
     name = models.CharField(max_length=32, unique=True)
@@ -44,6 +48,7 @@ class Type(models.Model):
     def __str__(self):
         return str(self.name)
 
+
 class Move(models.Model):
     MOVE_CATEGORY_CHOICES = (
         ('PHYSICAL', 'Physical'),
@@ -52,7 +57,8 @@ class Move(models.Model):
     )
     name = models.CharField(max_length=64, unique=True)
     type = models.ForeignKey(Type, null=True, on_delete=models.SET_NULL)
-    category = models.CharField(max_length=16, choices=MOVE_CATEGORY_CHOICES, null=True)
+    category = models.CharField(
+        max_length=16, choices=MOVE_CATEGORY_CHOICES, null=True)
     power = models.IntegerField(null=True)
     accuracy = models.IntegerField(null=True)
     power_points = models.IntegerField()
@@ -67,13 +73,17 @@ class Move(models.Model):
     def __str__(self):
         return str(self.name)
 
+
 class Pokemon(models.Model):
     pokedex = models.IntegerField()
     name = models.CharField(max_length=32)
     form = models.CharField(max_length=32, null=True)
-    types = models.ManyToManyField(Type, related_name='pokemon', related_query_name='pokemon')
-    moves = models.ManyToManyField(Move, related_name='pokemon', related_query_name='pokemon')
-    abilities = models.ManyToManyField(Ability, related_name='pokemon', related_query_name='pokemon')
+    types = models.ManyToManyField(
+        Type, related_name='pokemon', related_query_name='pokemon')
+    moves = models.ManyToManyField(
+        Move, related_name='pokemon', related_query_name='pokemon')
+    abilities = models.ManyToManyField(
+        Ability, related_name='pokemon', related_query_name='pokemon')
     hit_points = models.IntegerField()
     attack = models.IntegerField()
     defense = models.IntegerField()
