@@ -36,13 +36,20 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.sites',
     'django.contrib.staticfiles',
+
+    'allauth',
+    'allauth.account',
     'corsheaders',
     'django_filters',
-    'pokemon',
     'rest_framework',
-    'rest_framework_swagger'
+    'rest_framework_swagger',
+
+    'pokemon',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -89,6 +96,11 @@ DATABASES = {
         'PORT': os.environ.get('MYSQL_PORT')
     }
 }
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
 
 
 # Password validation
