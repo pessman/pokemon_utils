@@ -13,9 +13,6 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from allauth.account.views import (confirm_email, email,
-                                   email_verification_sent, login, logout,
-                                   signup)
 from django.conf.urls import url
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
@@ -29,6 +26,6 @@ from api.views import RegistrationView
 urlpatterns = [
     path('registration/', RegistrationView.as_view(), name='registration'),
     path('token/', TokenObtainPairView.as_view(), name='token-obtain-pair'),
-    path('token/refresh/', TokenRefreshView.as_view(), name = 'token-refresh'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token-refresh'),
     path('', include('allauth.account.urls'))
 ]
