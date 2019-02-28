@@ -165,3 +165,5 @@ SWAGGER_SETTINGS = {
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+LOGIN_REDIRECT_URL = '/pokemon/info/' # change this to Angular front end url later on

@@ -15,14 +15,10 @@ Including another URLconf
 """
 from django.contrib.auth import urls
 from django.urls import include, path
-from rest_framework_simplejwt.views import (TokenObtainPairView,
-                                            TokenRefreshView)
 from rest_framework_swagger.views import get_swagger_view
 
 urlpatterns = [
     path('api/', include('api.urls')),
-    path('api/token/', TokenObtainPairView.as_view(), name = 'token-obtain-pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token-refresh'),
-    path('api/docs/', get_swagger_view(title='Pokemon Utils API')),
-    path('pokemon/', include('pokemon.urls'))
+    path('docs/', get_swagger_view(title='Pokemon Utils API')),
+    path('pokemon/', include('pokemon.urls'), name='pokemon')
 ]
