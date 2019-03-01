@@ -54,7 +54,7 @@ def build_pokemon_db():
         obj, created = Pokemon.objects.update_or_create(pokedex=pokedex, name=name, form=form, defaults=defaults)
         obj.types.clear()
         for type in types:
-            obj.types.add(Type.objects.get(name=type.lower()))
+            obj.types.add(Type.objects.get(name=type.lower().title()))
         obj.save()
         if not created:
             print(obj)
