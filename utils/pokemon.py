@@ -52,7 +52,7 @@ def build_pokemon_db():
             'speed': speed
         }
         obj, created = Pokemon.objects.update_or_create(pokedex=pokedex, name=name, form=form, defaults=defaults)
-        obj.type.clear()
+        obj.types.clear()
         for type in types:
             obj.types.add(Type.objects.get(name=type.lower()))
         obj.save()
