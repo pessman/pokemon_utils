@@ -98,3 +98,28 @@ class Pokemon(models.Model):
 
     def __str__(self):
         return "{}: {}".format(self.pokedex, self.name)
+
+
+class Nature(models.Model):
+    NATURE_MODIFIER_CHOICES = (
+        ('+', 1.1),
+        ('-', 0.9)
+    )
+    name = models.CharField(max_length=32, unique=True)
+    attack = models.CharField(max_length=1, null=True,
+                              choices=NATURE_MODIFIER_CHOICES)
+    defense = models.CharField(
+        max_length=1, null=True, choices=NATURE_MODIFIER_CHOICES)
+    special_attack = models.CharField(
+        max_length=1, null=True, choices=NATURE_MODIFIER_CHOICES)
+    special_defense = models.CharField(
+        max_length=1, null=True, choices=NATURE_MODIFIER_CHOICES)
+    speed = models.CharField(max_length=1, null=True,
+                             choices=NATURE_MODIFIER_CHOICES)
+
+    def modifiers(self):
+        MODIFIERS = {
+            '+': 1.1,
+            '-': 0.9
+        }
+        return [MODIFIERS[mod] if mod in MODIFIERS else 1 for mod in [self.attack, self.defense, self.special_attack, self.special_defense, self.speed]]

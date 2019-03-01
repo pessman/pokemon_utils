@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from pokemon.models import Ability, Item, Move, Pokemon, Type
+from pokemon.models import Ability, Item, Move, Nature, Pokemon, Type
 
 
 class AbilitySerializer(serializers.ModelSerializer):
@@ -8,20 +8,24 @@ class AbilitySerializer(serializers.ModelSerializer):
         model = Ability
         fields = '__all__'
 
+
 class AbilityNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ability
         fields = ('name',)
+
 
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
         fields = '__all__'
 
+
 class MoveSerializer(serializers.ModelSerializer):
     class Meta:
         model = Move
         fields = '__all__'
+
 
 class TypeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -34,10 +38,17 @@ class TypeNameSerializer(serializers.ModelSerializer):
         model = Type
         fields = ('name',)
 
+
 class PokemonSerializer(serializers.ModelSerializer):
     abilities = AbilityNameSerializer(many=True, read_only=True)
     types = TypeNameSerializer(many=True, read_only=True)
 
     class Meta:
         model = Pokemon
+        fields = '__all__'
+
+
+class NatureSerialzier(serializers.ModelSerializer):
+    class Meta:
+        model = Nature
         fields = '__all__'
