@@ -1,4 +1,8 @@
-from rest_framework import viewsets
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from pokemon.filters import (AbilityFilter, ItemFilter, MoveFilter,
                              PokemonFilter, TypeFilter)
@@ -8,9 +12,19 @@ from pokemon.permissions import IsAdminOrReadOnly
 from pokemon.serializers import (AbilitySerializer, ItemSerializer,
                                  MoveSerializer, PokemonSerializer,
                                  TypeSerializer)
+from utils import abilities, items, moves, pokemon, types
 
 
-class AbilityViewSet(viewsets.ModelViewSet):
+class BuildPokemonDb(APIView):
+    authentication_classes = (JWTAuthentication,)
+    permission_classes = (IsAdminOrReadOnly,)
+
+    def post(self, request, format=None):
+        pokemon.build_pokemon_db()
+        return Response({"message": "Building pokemon database."}, status=status.HTTP_200_OK)
+
+
+class AbilityViewSet(ModelViewSet):
     queryset = Ability.objects.all()
     serializer_class = AbilitySerializer
     pagination_class = PokemonPagination
@@ -18,7 +32,7 @@ class AbilityViewSet(viewsets.ModelViewSet):
     filterset_class = AbilityFilter
 
 
-class ItemViewSet(viewsets.ModelViewSet):
+class ItemViewSet(ModelViewSet):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
     pagination_class = PokemonPagination
@@ -26,7 +40,7 @@ class ItemViewSet(viewsets.ModelViewSet):
     filterset_class = ItemFilter
 
 
-class MoveViewSet(viewsets.ModelViewSet):
+class MoveViewSet(ModelViewSet):
     queryset = Move.objects.all()
     serializer_class = MoveSerializer
     pagination_class = PokemonPagination
@@ -34,7 +48,7 @@ class MoveViewSet(viewsets.ModelViewSet):
     filterset_class = MoveFilter
 
 
-class PokemonViewSet(viewsets.ModelViewSet):
+class PokemonViewSet(ModelViewSet):
     queryset = Pokemon.objects.all()
     serializer_class = PokemonSerializer
     pagination_class = PokemonPagination
@@ -42,7 +56,7 @@ class PokemonViewSet(viewsets.ModelViewSet):
     filterset_class = PokemonFilter
 
 
-class TypeViewSet(viewsets.ModelViewSet):
+class TypeViewSet(ModelViewSet):
     queryset = Type.objects.all()
     serializer_class = TypeSerializer
     pagination_class = PokemonPagination

@@ -177,5 +177,6 @@ CORS_ORIGIN_ALLOW_ALL = True
 # change this to Angular front end url later on
 LOGIN_REDIRECT_URL = '/pokemon/info/'
 
-DATABASES['default'] = dj_database_url.config(
-    conn_max_age=600, ssl_require=True)
+if not os.environ.get("ENVIRONMENT"):
+    DATABASES['default'] = dj_database_url.config(
+        conn_max_age=600, ssl_require=True)

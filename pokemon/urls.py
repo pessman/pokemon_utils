@@ -18,8 +18,8 @@ from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
 
-from pokemon.views import (AbilityViewSet, ItemViewSet, MoveViewSet,
-                           PokemonViewSet, TypeViewSet)
+from pokemon.views import (AbilityViewSet, BuildPokemonDb, ItemViewSet,
+                           MoveViewSet, PokemonViewSet, TypeViewSet)
 
 router = routers.DefaultRouter()
 router.register(r'abilities', AbilityViewSet)
@@ -32,5 +32,6 @@ router.register(r'types', TypeViewSet)
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('', include(router.urls)),
-    path('admin/', admin.site.urls)
+    path('admin/', admin.site.urls),
+    path('pokemon-db/', BuildPokemonDb.as_view())
 ]
