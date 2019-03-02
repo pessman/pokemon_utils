@@ -101,25 +101,14 @@ class Pokemon(models.Model):
 
 
 class Nature(models.Model):
-    NATURE_MODIFIER_CHOICES = (
-        ('+', 1.1),
-        ('-', 0.9)
-    )
-    name = models.CharField(max_length=32, unique=True)
-    attack = models.CharField(max_length=1, null=True,
-                              choices=NATURE_MODIFIER_CHOICES)
-    defense = models.CharField(
-        max_length=1, null=True, choices=NATURE_MODIFIER_CHOICES)
-    special_attack = models.CharField(
-        max_length=1, null=True, choices=NATURE_MODIFIER_CHOICES)
-    special_defense = models.CharField(
-        max_length=1, null=True, choices=NATURE_MODIFIER_CHOICES)
-    speed = models.CharField(max_length=1, null=True,
-                             choices=NATURE_MODIFIER_CHOICES)
 
-    def modifiers(self):
-        MODIFIERS = {
-            '+': 1.1,
-            '-': 0.9
-        }
-        return [MODIFIERS[mod] if mod in MODIFIERS else 1 for mod in [self.attack, self.defense, self.special_attack, self.special_defense, self.speed]]
+    name = models.CharField(max_length=8, unique=True)
+    positive = models.CharField(max_length=16, null=True)
+    negative = models.CharField(max_length=16, null=True)
+
+    def modifier(self, stat):
+        if self.positive.upper() == stat.upper():
+            return 1.1
+        elif self.negative.upper() == stat.upper():
+            return 0.9
+        return 1
