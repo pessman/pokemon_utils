@@ -14,19 +14,8 @@ class Ability(models.Model):
 
 
 class Item(models.Model):
-    ITEM_CATEGORY_CHOICES = (
-        ('BATTLE ITEMS', 'Battle Items'),
-        ('BERRIES', 'Berries'),
-        ('GENERAL ITEMS', 'General Items'),
-        ('HOLD ITEMS', 'Hold Items'),
-        ('MACHINES', 'Machines'),
-        ('MEDICINE', 'Medicine'),
-        ('POKEBALLS', 'Pokeballs'),
-        ('UNKOWN', 'Uknown')
-    )
     name = models.CharField(max_length=32, unique=True)
-    category = models.CharField(
-        max_length=16, null=True, choices=ITEM_CATEGORY_CHOICES)
+    category = models.CharField(max_length=16, null=True)
     effect = models.CharField(max_length=256, null=True)
 
     class Meta:
@@ -101,10 +90,13 @@ class Pokemon(models.Model):
 
 
 class Nature(models.Model):
-
     name = models.CharField(max_length=8, unique=True)
     positive = models.CharField(max_length=16, null=True)
     negative = models.CharField(max_length=16, null=True)
+
+    class Meta:
+        verbose_name = 'nature'
+        verbose_name_plural = 'natures'
 
     def modifier(self, stat):
         if self.positive.upper() == stat.upper():

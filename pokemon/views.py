@@ -5,14 +5,14 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from pokemon.filters import (AbilityFilter, ItemFilter, MoveFilter,
-                             PokemonFilter, TypeFilter)
-from pokemon.models import Ability, Item, Move, Pokemon, Type
+                             NatureFilter, PokemonFilter, TypeFilter)
+from pokemon.models import Ability, Item, Move, Nature, Pokemon, Type
 from pokemon.pagination import PokemonPagination
 from pokemon.permissions import IsAdminOrReadOnly
 from pokemon.serializers import (AbilitySerializer, ItemSerializer,
-                                 MoveSerializer, PokemonSerializer,
-                                 TypeSerializer)
-from utils import abilities, items, moves, pokemon, types
+                                 MoveSerializer, NatureSerialzier,
+                                 PokemonSerializer, TypeSerializer)
+from utils import abilities, items, moves, natures, pokemon, types
 
 
 class BuildPokemonDb(APIView):
@@ -46,6 +46,13 @@ class MoveViewSet(ModelViewSet):
     pagination_class = PokemonPagination
     permission_classes = (IsAdminOrReadOnly,)
     filterset_class = MoveFilter
+
+class NatureViewSet(ModelViewSet):
+    queryset = Nature.objects.all()
+    serializer_class = NatureSerialzier
+    pagination_class = PokemonPagination
+    permission_classes = (IsAdminOrReadOnly,)
+    filterset_class = NatureFilter
 
 
 class PokemonViewSet(ModelViewSet):

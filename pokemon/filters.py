@@ -1,6 +1,6 @@
 from django_filters import rest_framework as filters
 
-from pokemon.models import Ability, Item, Move, Pokemon, Type
+from pokemon.models import Ability, Item, Move, Nature, Pokemon, Type
 
 
 class AbilityFilter(filters.FilterSet):
@@ -50,6 +50,19 @@ class MoveFilter(filters.FilterSet):
             'accuracy', 'accuracy_gte', 'accuracy_lte', 'power_points',
             'power_points_gte', 'power_points_lte'
         ]
+
+
+class NatureFilter(filters.FilterSet):
+    name = filters.CharFilter(
+        field_name='name', lookup_expr='icontains', label='name')
+    positive_stat = filters.CharFilter(
+        field_name='positive', lookup_expr='icontains', label='positive_stat')
+    negative_stat = filters.CharFilter(
+        field_name='negative', lookup_expr='icontains', label='negative_state')
+
+    class Meta:
+        model = Nature
+        fields = ['name', 'positive_stat', 'negative_stat']
 
 
 class PokemonFilter(filters.FilterSet):
