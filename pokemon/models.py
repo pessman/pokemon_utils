@@ -99,8 +99,9 @@ class Nature(models.Model):
         verbose_name_plural = 'natures'
 
     def modifier(self, stat):
-        if self.positive.upper() == stat.upper():
+        if self.positive is None:
+            return 1
+        elif self.positive.upper() == stat.upper():
             return 1.1
         elif self.negative.upper() == stat.upper():
             return 0.9
-        return 1
