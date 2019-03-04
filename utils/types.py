@@ -19,7 +19,7 @@ def get_type_info():
     for a in soup.body.main.p.find_all('a'):
         yield str(a.string).lower()
 
-def build_type_db():
+def build_types_db():
     '''Updates or creates type based on info from supplied by get_type_info()
     '''
 
@@ -31,9 +31,9 @@ def build_type_db():
         soup = BeautifulSoup(response.text, 'html.parser')
         description = db_utils.parse_content(soup.body.main.p)
         defaults = {
-            'name': type.title(),
-            'description': description
+            'name': type.upper(),
+            'description': description.upper()
         }
-        obj, created = Type.objects.update_or_create(name=type, defaults=defaults)
+        obj, created = Type.objects.update_or_create(name__iexact=type, defaults=defaults)
         if not created:
-            print(obj)
+            print("Updated {} with {}".format(obj.name, defaults))

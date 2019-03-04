@@ -30,10 +30,10 @@ def build_items_db():
         category = fields[1].string
         effect = fields[2].string
         defaults = {
-            'name': name,
+            'name': name.upper(),
             'category': category.upper() if category is not None else None,
-            'effect': effect
+            'effect': effect.upper() if effect is not None else None
         }
-        obj, created = Item.objects.update_or_create(name=name, defaults=defaults)
+        obj, created = Item.objects.update_or_create(name__iexact=name, defaults=defaults)
         if not created:
-            print(obj)
+            print("Updated {} with {}".format(obj.name, defaults))

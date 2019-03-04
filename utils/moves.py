@@ -19,7 +19,7 @@ def get_move_info():
         yield tr
 
 
-def build_move_db():
+def build_moves_db():
     '''Updates or creates move based on info from supplied by get_move_info()
     '''
 
@@ -27,17 +27,17 @@ def build_move_db():
 
     for move in get_move_info():
         fields = move.find_all('td')
-        name = fields[0].string
+        name = fields[0].string.upper()
         type = fields[1].string
-        type_obj = Type.objects.get(name=type.lower())
-        category = fields[2].span.attrs['title'] if fields[2].span is not None else None
-        power = fields[3].string if fields[3].string != '—' else None
-        accuracy = fields[4].string if fields[4].string != '—' else None
+        type_obj = Type.objects.get(name__iexact=type.upper())
+        category = fields[2].span.attrs['title'].upper() if fields[2].span is not None else None
+        power = fields[3].string if fields[3].string.upper() != '—' else None
+        accuracy = fields[4].string if fields[4].string.upper() != '—' else None
         if accuracy == '∞':
             accuracy = 9000
         power_points = fields[5].string if fields[5].string != '—' else 0
-        tm = fields[6].string
-        effect = fields[7].string
+        tm = fields[6].string.upper() if fields[6].string is not None else None
+        effect = fields[7].string.upper() if fields[7].string is not None else None
         effect_percent_chance = fields[8].string if fields[8].string != '—' else None
         defaults = {
             'name': name,
@@ -50,6 +50,6 @@ def build_move_db():
             'effect': effect,
             'effect_percent_chance': effect_percent_chance
         }
-        obj, created = Move.objects.update_or_create(name=name, defaults=defaults)
+        obj, created = Move.objects.update_or_create(name__iexact=name, defaults=defaults)
         if not created:
-            print(obj)
+            print("Updated {} with {}".format(obj.name, defaults))

@@ -32,10 +32,10 @@ def build_pokemon_db():
         pokedex = fields[0].find_all('span')[2].string
         form = None
         if fields[1].find('small'):
-            name = fields[1].a.string
-            form = fields[1].small.string
+            name = fields[1].a.string.upper()
+            form = fields[1].small.string.upper()
         else:
-            name = fields[1].string
+            name = fields[1].string.upper()
         types = [field.string for field in fields[2].find_all('a')]
         hit_points = fields[4].string
         attack = fields[5].string
@@ -51,13 +51,13 @@ def build_pokemon_db():
             'special_defense': special_defense,
             'speed': speed
         }
-        obj, created = Pokemon.objects.update_or_create(pokedex=pokedex, name=name, form=form, defaults=defaults)
+        obj, created = Pokemon.objects.update_or_create(pokedex=pokedex, name__iexact=name, form__iexact=form, defaults=defaults)
         obj.types.clear()
         for type in types:
-            obj.types.add(Type.objects.get(name=type.lower().title()))
+            obj.types.add(Type.objects.get(name__iexact=type.lower()))
         obj.save()
         if not created:
-            print(obj)
+            print("Updated {} with {}".format(obj.name, defaults))
 
 
 def get_abilities():
