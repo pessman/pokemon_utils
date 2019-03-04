@@ -15,7 +15,7 @@ from pokemon.serializers import (AbilitySerializer, ItemSerializer,
 from utils import abilities, items, moves, natures, pokemon, types
 
 
-class BuildPokemonDb(APIView):
+class BuildPokemonDbView(APIView):
     authentication_classes = (JWTAuthentication,)
     permission_classes = (IsAdminOrReadOnly,)
 

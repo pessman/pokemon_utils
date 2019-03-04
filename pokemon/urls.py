@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
 
-from pokemon.views import (AbilityViewSet, BuildPokemonDb, ItemViewSet,
+from pokemon.views import (AbilityViewSet, BuildPokemonDbView, ItemViewSet,
                            MoveViewSet, NatureViewSet, PokemonViewSet,
                            TypeViewSet)
 
@@ -35,5 +35,5 @@ router.register(r'types', TypeViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
-    path('pokemon-db/', BuildPokemonDb.as_view())
+    path('pokemon-db/', BuildPokemonDbView.as_view())
 ]
