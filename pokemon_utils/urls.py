@@ -19,6 +19,6 @@ from rest_framework_swagger.views import get_swagger_view
 
 urlpatterns = [
     path('api/', include('api.urls')),
-    path('docs/', get_swagger_view(title='Pokemon Utils API')),
+    path('', get_swagger_view(title='Pokemon Utils API')),
     path('pokemon/', include('pokemon.urls'), name='pokemon')
 ]
