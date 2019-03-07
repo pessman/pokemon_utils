@@ -1,4 +1,5 @@
 from django.db import models
+from django.forms.models import model_to_dict
 
 
 class Ability(models.Model):
@@ -88,6 +89,9 @@ class Pokemon(models.Model):
     def __str__(self):
         return "{}: {}".format(self.pokedex, self.name)
 
+    def base_stats(self):
+        return model_to_dict(self, fields=['hit_points', 'attack', 'defense', 'special_attack', 'special_defense', 'speed'])
+
 
 class Nature(models.Model):
     name = models.CharField(max_length=8, unique=True)
@@ -101,7 +105,8 @@ class Nature(models.Model):
     def modifier(self, stat):
         if self.positive is None:
             return 1
-        elif self.positive.upper() == stat.upper():
+        if self.positive.upper() == stat.upper():
             return 1.1
-        elif self.negative.upper() == stat.upper():
+        if self.negative.upper() == stat.upper():
             return 0.9
+        return 1
