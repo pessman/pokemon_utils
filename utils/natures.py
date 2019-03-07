@@ -24,8 +24,8 @@ def build_natures_db():
     for nature in get_nature_info():
         defaults = {
             'name': nature[0].upper(),
-            'positive': nature[1].upper() if nature[1].upper() != "NONE" else None,
-            'negative': nature[2].upper() if nature[2].upper() != "NONE" else None
+            'positive': nature[1].upper().replace(" ", "_") if nature[1].upper() != "NONE" else None,
+            'negative': nature[2].upper().replace(" ", "_") if nature[2].upper() != "NONE" else None
         }
         obj, created = Nature.objects.update_or_create(
             name__iexact=nature[0], defaults=defaults)
