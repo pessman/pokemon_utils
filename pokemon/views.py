@@ -1,4 +1,5 @@
 from rest_framework import status
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
@@ -11,7 +12,8 @@ from pokemon.pagination import PokemonPagination
 from pokemon.permissions import IsAdminOrReadOnly
 from pokemon.serializers import (AbilitySerializer, ItemSerializer,
                                  MoveSerializer, NatureSerialzier,
-                                 PokemonSerializer, TypeSerializer)
+                                 PokemonSerializer, PokemonStatsSerializer,
+                                 TypeSerializer)
 from utils import abilities, items, moves, natures, pokemon, types
 
 
@@ -47,6 +49,7 @@ class MoveViewSet(ModelViewSet):
     permission_classes = (IsAdminOrReadOnly,)
     filterset_class = MoveFilter
 
+
 class NatureViewSet(ModelViewSet):
     queryset = Nature.objects.all()
     serializer_class = NatureSerialzier
@@ -61,6 +64,19 @@ class PokemonViewSet(ModelViewSet):
     pagination_class = PokemonPagination
     permission_classes = (IsAdminOrReadOnly,)
     filterset_class = PokemonFilter
+
+    @action(methods=['POST'], detail=True, url_path='stats')
+    def stats(self, request, pk=None):
+        pokemon = self.get_object()
+        data = {
+            'base_stats': pokemon.base_stats(),
+            **request.data
+        }
+        serializer = PokemonStatsSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        response_data = serializer.get_stats()
+        return Response(data=response_data, status=status.HTTP_200_OK, headers=self.get_success_headers(response_data))
+        # serializer = PokemonStatsSerializer
 
 
 class TypeViewSet(ModelViewSet):
