@@ -76,7 +76,6 @@ class PokemonViewSet(ModelViewSet):
         serializer.is_valid(raise_exception=True)
         response_data = serializer.get_stats()
         return Response(data=response_data, status=status.HTTP_200_OK, headers=self.get_success_headers(response_data))
-        # serializer = PokemonStatsSerializer
 
 
 class TypeViewSet(ModelViewSet):

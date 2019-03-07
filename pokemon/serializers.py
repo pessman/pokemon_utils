@@ -6,6 +6,9 @@ from rest_framework.relations import PKOnlyObject
 
 from pokemon.models import Ability, Item, Move, Nature, Pokemon, Type
 
+POKEMON_STATS = ['hit_points', 'attack', 'defense',
+         'special_attack', 'special_defense', 'speed']
+
 
 class AbilitySerializer(serializers.ModelSerializer):
     class Meta:
@@ -121,17 +124,13 @@ class EfforValueSerializer(serializers.Serializer):
     speed = serializers.IntegerField(min_value=0, max_value=255)
 
     def validate(self, data):
-        from pokemon.stats import STATS
-        if sum([data[key] for key in data if key in STATS]) > 510:
+        if sum([data[key] for key in data if key in POKEMON_STATS]) > 510:
             raise serializers.ValidationError(
                 "Effort Values total more than 510.")
         return data
 
 
 class PokemonStatsSerializer(serializers.Serializer):
-    STATS = ['hit_points', 'attack', 'defense',
-             'special_attack', 'special_defense', 'speed']
-
     base_stats = BaseStatSerializer()
     ivs = InternalValueSerializer()
     evs = EfforValueSerializer()
@@ -168,7 +167,7 @@ class PokemonStatsSerializer(serializers.Serializer):
             **self.get_hp(self.validated_data['base_stats'].get('hit_points'), self.validated_data['ivs'].get('hit_points'), self.validated_data['evs'].get('hit_points'), self.validated_data.get('level'))
         }
 
-        for stat in self.STATS[1:]:
+        for stat in POKEMON_STATS[1:]:
             stats = {
                 **stats,
                 **self.get_other_stats(self.validated_data['base_stats'].get(stat), self.validated_data['ivs'].get(stat), self.validated_data['evs'].get(stat), self.validated_data.get('level'), self.validated_data.get('nature'), stat)
