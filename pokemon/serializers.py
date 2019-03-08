@@ -91,7 +91,7 @@ class PokemonSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class NatureSerialzier(serializers.ModelSerializer):
+class NatureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Nature
         fields = '__all__'

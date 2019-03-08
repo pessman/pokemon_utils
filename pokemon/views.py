@@ -11,7 +11,7 @@ from pokemon.models import Ability, Item, Move, Nature, Pokemon, Type
 from pokemon.pagination import PokemonPagination
 from pokemon.permissions import IsAdminOrReadOnly
 from pokemon.serializers import (AbilitySerializer, ItemSerializer,
-                                 MoveSerializer, NatureSerialzier,
+                                 MoveSerializer, NatureSerializer,
                                  PokemonSerializer, PokemonStatsSerializer,
                                  TypeSerializer)
 from utils import abilities, items, moves, natures, pokemon, types
@@ -52,7 +52,7 @@ class MoveViewSet(ModelViewSet):
 
 class NatureViewSet(ModelViewSet):
     queryset = Nature.objects.all()
-    serializer_class = NatureSerialzier
+    serializer_class = NatureSerializer
     pagination_class = PokemonPagination
     permission_classes = (IsAdminOrReadOnly,)
     filterset_class = NatureFilter
