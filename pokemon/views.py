@@ -12,7 +12,7 @@ from pokemon.pagination import PokemonPagination
 from pokemon.permissions import IsAdminOrReadOnly
 from pokemon.serializers import (AbilitySerializer, ItemSerializer,
                                  MoveSerializer, NatureSerializer,
-                                 PokemonSerializer, PokemonStatsSerializer,
+                                 PokemonSerializer, StatsSerializer,
                                  TypeSerializer)
 from utils import abilities, items, moves, natures, pokemon, types
 
@@ -72,7 +72,7 @@ class PokemonViewSet(ModelViewSet):
             'base_stats': pokemon.base_stats(),
             **request.data
         }
-        serializer = PokemonStatsSerializer(data=data)
+        serializer = StatsSerializer(data=data)
         serializer.is_valid(raise_exception=True)
         response_data = serializer.get_stats()
         return Response(data=response_data, status=status.HTTP_200_OK, headers=self.get_success_headers(response_data))

@@ -7,7 +7,7 @@ from rest_framework.relations import PKOnlyObject
 from pokemon.models import Ability, Item, Move, Nature, Pokemon, Type
 
 POKEMON_STATS = ['hit_points', 'attack', 'defense',
-         'special_attack', 'special_defense', 'speed']
+                 'special_attack', 'special_defense', 'speed']
 
 
 class AbilitySerializer(serializers.ModelSerializer):
@@ -130,7 +130,7 @@ class EfforValueSerializer(serializers.Serializer):
         return data
 
 
-class PokemonStatsSerializer(serializers.Serializer):
+class StatsSerializer(serializers.Serializer):
     base_stats = BaseStatSerializer()
     ivs = InternalValueSerializer()
     evs = EfforValueSerializer()
