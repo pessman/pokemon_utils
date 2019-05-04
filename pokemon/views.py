@@ -65,7 +65,7 @@ class PokemonViewSet(ModelViewSet):
     permission_classes = (IsAdminOrReadOnly,)
     filterset_class = PokemonFilter
 
-    @action(methods=['POST'], detail=True, url_path='stats')
+    @action(methods=['POST'], detail=True, permission_classes=[])
     def stats(self, request, pk=None):
         pokemon = self.get_object()
         data = {
